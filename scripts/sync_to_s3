@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Upload files to a bucket with the same name as the current directory
+
+bucket="s3://$(basename "$(pwd)")"
+
+if ! aws s3 ls "$bucket" > /dev/null; then
+    echo "Unable to access the bucket $bucket."
+    exit 1
+fi
+
+# Upload all the files using the Content-Type from S3 if available
+find "$(pwd)" -type f | while read -r filename; do
+    echo
+    key="${filename#$(pwd)/}"
+    # Fetch the current Content-Type from S3
+    existing_mime_type=$(aws s3api head-object --bucket "$(basename "$(pwd)")" --key "$key" --query 'ContentType' --output text 2>/dev/null)
+    
+    if [ "$existing_mime_type" == "None" ] || [ -z "$existing_mime_type" ]; then
+        echo "No existing MIME type found for $key, skipping Content-Type."
+        aws s3 cp "$filename" "$bucket/$key"
+    else
+        echo "Using existing MIME type $existing_mime_type for $key"
+        aws s3 cp "$filename" "$bucket/$key" --content-type "$existing_mime_type"
+    fi
+done
+
+# Invalidate a Cloudfront Distribution if there is one
+echo
+distribution_id=$(aws cloudfront list-distributions | jq -r --arg bucket_name "$(basename "$(pwd)")" '.DistributionList.Items[] | select(.Origins.Items[].Id == $bucket_name).Id')
+if [ -n "$distribution_id" ]; then
+    echo "Publishing CloudFront invalidation for distribution ID: $distribution_id"
+    echo
+    aws cloudfront create-invalidation --no-cli-pager --distribution-id $distribution_id --paths '/*' | jq -c .
+    echo
+fi
