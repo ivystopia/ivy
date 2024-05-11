@@ -1,7 +1,7 @@
 # Things I Keep on GitHub
 
-## [🔗 PGP Key](/pgp)
+## [🔗 PGP Key](https://github.com/ivystopia/ivy/tree/main/pgp)
 
-## [🔗 Crypto Addresses](/crypto)
+## [🔗 Crypto Addresses](https://github.com/ivystopia/ivy/blob/main/crypto/README.md)
 
-## [🔗 Useful Scripts](/scripts)
+## [🔗 Useful Scripts](https://github.com/ivystopia/ivy/tree/main/scripts)
