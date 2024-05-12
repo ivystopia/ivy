@@ -25,3 +25,10 @@
 * Deletes an S3 bucket even if it has versioning enabled.
 * All objects in the bucket are deleted permanently.
 * Requires `boto3`.
+
+## docker-compose-monerod.yml
+
+`docker-compose-monerod.yml`
+
+* Docker compose file for running Monero Daemon
+* Uses [simple-monerod](https://github.com/sethforprivacy/simple-monerod-docker) image
