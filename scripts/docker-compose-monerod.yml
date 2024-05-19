@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  monero-node:
+    container_name: monero-daemon
+    image: ghcr.io/sethforprivacy/simple-monerod:latest
+    restart: unless-stopped
+    network_mode: bridge
+    volumes:
+      - /mnt/e/XMR/blockchain:/home/monero/.bitmonero # Adjusted to match batch file's data directory
+    ports:
+      - "18080:18080" # P2P network port
+      - "18081:18081" # RPC full port - DO NOT OPEN TO INTERNET
+      - "18083:18083" # ZeroMQ port
+    command: >
+      --out-peers 128
+      --in-peers 128
+      --enable-dns-blocklist
+      --data-dir /home/monero/.bitmonero
+      --limit-rate-up 30000
+      --limit-rate-down 30000
+      --enforce-dns-checkpointing
+      --db-sync-mode fast:async:100000000bytes
+      --log-level 0
+      --max-log-file-size 104857600
+      --max-log-files 20
+      --rpc-bind-ip 0.0.0.0
+      --confirm-external-bind
+      --zmq-pub=tcp://0.0.0.0:18083
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:18081/get_info"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
