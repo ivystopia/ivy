@@ -7,10 +7,6 @@ plugins:
 remote_theme: just-the-docs/just-the-docs
 permalink: pretty # Set pretty permalinks
 
-just_the_docs:
-  additional_css_files:
-    - assets/css/custom.css
-
 # Exclude specific directories and files from the build
 exclude:
   - .sass-cache/
@@ -28,7 +24,7 @@ exclude:
 enable_copy_code_button: true
 search_enabled: false
 heading_anchors: true
-color_scheme: dark
+color_scheme: ivy
 
 # Mermaid Diagrams Configuration
 mermaid:
