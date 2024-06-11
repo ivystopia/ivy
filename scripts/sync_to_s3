@@ -2,89 +2,35 @@
 
 # Upload files to a bucket with the same name as the current directory
 
-bucket_name=$(basename "$(pwd)")
-bucket="s3://$bucket_name"
+bucket="s3://$(basename "$(pwd)")"
 
-# Check if the bucket is accessible
-if ! aws s3 ls "$bucket" >/dev/null 2>&1; then
+if ! aws s3 ls "$bucket" > /dev/null; then
     echo "Unable to access the bucket $bucket."
     exit 1
 fi
 
-# Function to get the file size and last modified date
-get_local_file_metadata() {
-    local filepath="$1"
-    stat --format="%s %Y" "$filepath"
-}
-
-# Function to get the S3 object size and last modified date
-get_s3_object_metadata() {
-    local bucket="$1"
-    local key="$2"
-    local metadata
-    metadata=$(aws s3api head-object --bucket "$bucket" --key "$key" --query '{Size: ContentLength, LastModified: LastModified}' --output json 2>/dev/null)
-
-    if [ -z "$metadata" ]; then
-        echo "None None"
-        return
-    fi
-
-    local size
-    local last_modified
-    size=$(echo "$metadata" | jq -r '.Size')
-    last_modified=$(echo "$metadata" | jq -r '.LastModified')
-    last_modified_epoch=$(date -d "$last_modified" +%s 2>/dev/null || echo 0)
-    echo "$size $last_modified_epoch"
-}
-
-# Function to upload a file
-upload_file() {
-    local filename="$1"
-    local key="$2"
-    local existing_mime_type
-    existing_mime_type=$(aws s3api head-object --bucket "$bucket_name" --key "$key" --query 'ContentType' --output text 2>/dev/null)
-
-    if [ -z "$existing_mime_type" ] || [ "$existing_mime_type" == "None" ]; then
+# Upload all the files using the Content-Type from S3 if available
+find "$(pwd)" -type f | while read -r filename; do
+    echo
+    key="${filename#$(pwd)/}"
+    # Fetch the current Content-Type from S3
+    existing_mime_type=$(aws s3api head-object --bucket "$(basename "$(pwd)")" --key "$key" --query 'ContentType' --output text 2>/dev/null)
+    
+    if [ "$existing_mime_type" == "None" ] || [ -z "$existing_mime_type" ]; then
         echo "No existing MIME type found for $key, skipping Content-Type."
         aws s3 cp "$filename" "$bucket/$key"
     else
         echo "Using existing MIME type $existing_mime_type for $key"
         aws s3 cp "$filename" "$bucket/$key" --content-type "$existing_mime_type"
     fi
-}
-
-# Upload files using the existing Content-Type from S3 if available
-find "$(pwd)" -type f | while read -r filename; do
-    echo
-    key="${filename#$(pwd)/}"
-
-    # Get local file metadata
-    read -r local_size local_modified < <(get_local_file_metadata "$filename")
-
-    # Get S3 object metadata
-    read -r s3_size s3_modified < <(get_s3_object_metadata "$bucket_name" "$key")
-
-    # Upload any new file
-    if [ "$s3_size" == "None" ]; then
-        upload_file "$filename" "$key"
-        continue
-    fi
-
-    # Skip unchanged files
-    if [ "$local_size" -eq "$s3_size" ] && [ "$local_modified" -le "$s3_modified" ]; then
-        echo "Skipped: $filename (unchanged)"
-        continue
-    fi
-
-    upload_file "$filename" "$key"
 done
 
-# Invalidate a CloudFront Distribution if there is one
+# Invalidate a Cloudfront Distribution if there is one
 echo
-distribution_id=$(aws cloudfront list-distributions | jq -r --arg bucket_name "$bucket_name" '.DistributionList.Items[] | select(.Origins.Items[].Id == $bucket_name).Id')
+distribution_id=$(aws cloudfront list-distributions | jq -r --arg bucket_name "$(basename "$(pwd)")" '.DistributionList.Items[] | select(.Origins.Items[].Id == $bucket_name).Id')
 if [ -n "$distribution_id" ]; then
     echo "Publishing CloudFront invalidation for distribution ID: $distribution_id"
     echo
-    aws cloudfront create-invalidation --no-cli-pager --distribution-id "$distribution_id" --paths '/*' | jq -c .
+    aws cloudfront create-invalidation --no-cli-pager --distribution-id $distribution_id --paths '/*' | jq -c .
     echo
 fi
