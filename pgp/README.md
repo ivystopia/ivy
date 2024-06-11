@@ -1,4 +1,6 @@
-# PGP key
+# PGP Key
+
+## Public Key Block
 
     -----BEGIN PGP PUBLIC KEY BLOCK-----
     Comment: E32D 4CF8 8E8E BD6A 607C  5338 DC81 FCE2 AF35 9168
@@ -18,12 +20,11 @@
     =P1kb
     -----END PGP PUBLIC KEY BLOCK-----
 
-## Fingerprint
+## Key Fingerprint
 
     E32D4CF88E8EBD6A607C5338DC81FCE2AF359168
 
-## Download links
+## Download Links
 
-[direct download](./publickey.ivy@ivy.gb.net-e32d4cf88e8ebd6a607c5338dc81fce2af359168.asc)
-
-[keys.openpgp.org](https://keys.openpgp.org/search?q=E32D4CF88E8EBD6A607C5338DC81FCE2AF359168)
+- [Direct Download](./publickey.ivy@ivy.gb.net-e32d4cf88e8ebd6a607c5338dc81fce2af359168.asc)
+- [keys.openpgp.org](https://keys.openpgp.org/search?q=E32D4CF88E8EBD6A607C5338DC81FCE2AF359168)
