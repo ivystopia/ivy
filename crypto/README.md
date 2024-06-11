@@ -45,7 +45,12 @@ This address is SegWit compatible.
 ## Solana (SOL)
 
 This address is exclusively for SOL and SPL tokens.
+Also preferred for USDC.
 
     CSWmiWuPkPoqFshafUMAWvLq5UiAqaqh1MKw3MxZmKdF
 
 [Show SOL QR Code](images/solana.png)
+
+----
+
+[.](./pgp.txt)

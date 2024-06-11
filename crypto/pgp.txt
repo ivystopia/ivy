@@ -1,0 +1,48 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+
+
+Monero (XMR)
+Address:
+8C7Yq3S1GfNa3x1XKRNXuMR1kK88HXoGPjSN4fh62tHa6KZcoxeo5JHEoS7GvAjDxe12dgBKTEgxwJEEvXkhLeRC77LfNog
+
+
+Ethereum (ETH)
+Address:
+0x108E58E55cc4BFC1D15bfc3534cBE50D0D10e24f
+
+
+Bitcoin (BTC)
+Address:
+1bc1qpfst9q796znxunkd4enxavgav2gcv3jgaz7st6t
+
+
+Litecoin (LTC)
+Address:
+ltc1qs60djrzq0c5mus52dccsaac4ker4hpvj3ppl7q
+
+
+Dogecoin (DOGE)
+Address:
+DQfhvxmKUfvqwaUKi6oN5D1vfnx6F1SStZ
+
+
+Bitcoin Cash (BCH)
+Address:
+qpcfsrc7fe26zyrqwfpapq5jl5r2kdcxxstc5kjwrp
+
+
+Solana (SOL)
+Address:
+CSWmiWuPkPoqFshafUMAWvLq5UiAqaqh1MKw3MxZmKdF
+
+
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQTjLUz4jo69amB8UzjcgfzirzWRaAUCZmiu4wAKCRDcgfzirzWR
+aGLDAP4p2OoBrxRc1Qu2P1Ozv7K/1wi8n3Jap6SZpmcha6/V6wEAnfTs4F7gIEAN
+8lIDE16qaanXIuxjULAw/a+eZkfTsQw=
+=LU62
+-----END PGP SIGNATURE-----
