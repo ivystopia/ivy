@@ -24,7 +24,7 @@ exclude:
 enable_copy_code_button: true
 search_enabled: false
 heading_anchors: true
-color_scheme: ivy
+color_scheme: dark
 
 # Mermaid Diagrams Configuration
 mermaid:
