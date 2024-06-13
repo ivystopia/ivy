@@ -15,7 +15,7 @@ Address:
 
 Bitcoin (BTC)
 Address:
-1bc1qpfst9q796znxunkd4enxavgav2gcv3jgaz7st6t
+bc1qpfst9q796znxunkd4enxavgav2gcv3jgaz7st6
 
 
 Litecoin (LTC)
@@ -38,11 +38,16 @@ Address:
 CSWmiWuPkPoqFshafUMAWvLq5UiAqaqh1MKw3MxZmKdF
 
 
+Zcash (ZEC)
+Address:
+t1WxwE7RxHBkFrh4Zz2vURFeWAeQsVgf6w6
+
+
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQTjLUz4jo69amB8UzjcgfzirzWRaAUCZmiu4wAKCRDcgfzirzWR
-aGLDAP4p2OoBrxRc1Qu2P1Ozv7K/1wi8n3Jap6SZpmcha6/V6wEAnfTs4F7gIEAN
-8lIDE16qaanXIuxjULAw/a+eZkfTsQw=
-=LU62
+iHUEARYKAB0WIQTjLUz4jo69amB8UzjcgfzirzWRaAUCZmptZgAKCRDcgfzirzWR
+aJ32AP9esm2iFo9hH0wXyRxQar2LaiywHOD3uKcI8MZdKiP0yAD9EVmzUA0Ca5K6
+Yvef1R2Q5V22WC6xHBnzDyrmMa3gNw8=
+=giEP
 -----END PGP SIGNATURE-----

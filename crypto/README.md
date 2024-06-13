@@ -37,6 +37,10 @@ Also preferred for USDC.
 
     CSWmiWuPkPoqFshafUMAWvLq5UiAqaqh1MKw3MxZmKdF
 
+## Zcash
+
+    t1WxwE7RxHBkFrh4Zz2vURFeWAeQsVgf6w6
+
 ----
 
 [.](./pgp.txt)
