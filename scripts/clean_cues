@@ -1,0 +1,90 @@
+#! /usr/bin/env python
+
+"""
+Cleans up a music library that contains a mix of FLAC and CUE files.
+Deletes redundant cuesheets that are in directories full of FLACs.
+Does not remove cuesheets if they have no FLACs in the directory.
+Does not remove cuesheets if they reference a single large audio file with multiple INDEX entries.
+"""
+
+import argparse
+from pathlib import Path
+import re
+
+
+class CueSheet:
+    def __init__(self):
+        self.file = None
+        self.tracks = []
+
+    def set_data(self, data):
+        self.data = data.split('\n')
+
+    def parse(self):
+        current_track = None
+        for line in self.data:
+            if line.startswith("FILE"):
+                match = re.match(r'^FILE "(.*?)" (.*)$', line)
+                if match:
+                    self.file = match.group(1)
+            elif line.startswith("TRACK"):
+                current_track = {}
+                self.tracks.append(current_track)
+            elif line.startswith("INDEX") and current_track is not None:
+                match = re.match(r'^INDEX \d{2} (\d{2}:\d{2}:\d{2})$', line)
+                if match:
+                    current_track['offset'] = match.group(1)
+
+
+def find_directories_with_files(base_path):
+    for directory in base_path.rglob('*'):
+        if directory.is_dir():
+            flac_files = list(directory.glob('*.flac'))
+            cue_files = list(directory.glob('*.cue'))
+            if flac_files and cue_files:
+                yield flac_files, cue_files
+
+
+def read_cue_content(cue_file_path):
+    cue = CueSheet()
+    try:
+        with open(cue_file_path, 'r', encoding='utf-8') as cue_file:
+            data = cue_file.read()
+    except UnicodeDecodeError:
+        with open(cue_file_path, 'r', encoding='iso-8859-1') as cue_file:
+            data = cue_file.read()
+    cue.set_data(data)
+    cue.parse()
+    return cue
+
+
+def should_delete_cue(cue, flac_files):
+    if len(flac_files) > 1 and len(cue.tracks) != 1:
+        return True
+    return False
+
+
+def cleanup_music_library(music_directory):
+    music_path = Path(music_directory)
+    if not music_path.is_dir():
+        print(f"Error: The specified directory does not exist: {
+              music_directory}")
+        return
+
+    for flac_files, cue_files in find_directories_with_files(music_path):
+        for cue in cue_files:
+            cue_content = read_cue_content(cue)
+            if cue_content and should_delete_cue(cue_content, flac_files):
+                print(f"rm -f \"{cue}\"")
+                # Uncomment the next line to actually delete the file
+                # cue.unlink()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='Cleans up a music library containing a mix of FLAC and CUE files.')
+    parser.add_argument('music_directory',
+                        help='Path to the music library directory')
+    args = parser.parse_args()
+
+    cleanup_music_library(args.music_directory)
