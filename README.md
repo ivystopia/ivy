@@ -1,9 +1,13 @@
-# Things I Keep on GitHub
+# ivystopia.github.io
 
-* ## [🔗 PGP Key](./pgp/)
+## Links
 
-* ## [🔗 Crypto Addresses](./crypto/)
+### [🔗 PGP Key](./pgp/)
 
-* ## [🔗 Script Backups](./scripts/)
+### [🔗 Crypto Addresses](./crypto/)
 
-* ## [🔗 External Links](https://linktr.ee/ivystopia)
+### [🔗 Script Backups](./scripts/)
+
+## External Links
+
+### [🔗 Linktree](https://linktr.ee/ivystopia)
