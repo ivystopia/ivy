@@ -1,4 +1,4 @@
-# [Backups for myself](https://github.com/ivystopia/ivystopia.github.io/tree/main/scripts)
+# [Backups for myself](./files/)
 
 > This is free and unencumbered software released into the public domain.
 >
