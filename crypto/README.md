@@ -1,4 +1,4 @@
-# Cryptocurrency addresses
+# [Cryptocurrency addresses](./pgp.txt)
 
 ## Monero (XMR)
 
@@ -40,7 +40,3 @@ Also preferred for USDC.
 ## Zcash
 
     t1WxwE7RxHBkFrh4Zz2vURFeWAeQsVgf6w6
-
-----
-
-[.](./pgp.txt)
