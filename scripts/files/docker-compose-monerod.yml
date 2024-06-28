@@ -6,29 +6,32 @@ services:
     image: ghcr.io/sethforprivacy/simple-monerod:latest
     restart: unless-stopped
     network_mode: bridge
+    env_file:
+      - .env
     volumes:
-      - /mnt/e/XMR/blockchain:/home/monero/.bitmonero # Adjusted to match batch file's data directory
+      - /mnt/e/XMR/blockchain:/home/monero/.bitmonero
     ports:
       - "18080:18080" # P2P network port
-      - "18081:18081" # RPC full port - DO NOT OPEN TO INTERNET
+      - "18081:18081" # RPC full port - Authentication required. Beware opening to the Internet!
       - "18083:18083" # ZeroMQ port
     command: >
-      --out-peers 128
-      --in-peers 128
+      --out-peers 512
+      --in-peers 512
       --enable-dns-blocklist
       --data-dir /home/monero/.bitmonero
-      --limit-rate-up 30000
-      --limit-rate-down 30000
+      --limit-rate-up 1048576
+      --limit-rate-down 1048576
       --enforce-dns-checkpointing
-      --db-sync-mode fast:async:100000000bytes
+      --db-sync-mode fast:async:250000000bytes
       --log-level 0
       --max-log-file-size 104857600
       --max-log-files 20
       --rpc-bind-ip 0.0.0.0
       --confirm-external-bind
       --zmq-pub=tcp://0.0.0.0:18083
+      --rpc-login $RPC_USERNAME:$RPC_PASSWORD
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:18081/get_info"]
+      test: ["CMD", "curl", "--user", "$RPC_USERNAME:$RPC_PASSWORD", "--fail", "http://localhost:18081/get_info"]
       interval: 30s
       timeout: 5s
       retries: 3
