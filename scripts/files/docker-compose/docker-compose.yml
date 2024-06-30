@@ -7,12 +7,12 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
+          cpus: '2'
           memory: '16G'
     logging:
       options:
         max-size: '10m'
-        max-file: '1'
+        max-file: '10'
     env_file:
       - .env
     volumes:
