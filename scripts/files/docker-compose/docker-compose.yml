@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   monero-node:
     container_name: Monero-Node
@@ -14,6 +12,7 @@ services:
       - .env
     volumes:
       - /home/anon/.bitmonero:/home/monero/.bitmonero
+      - ./monero-node-resolv.conf:/etc/resolv.conf
     ports:
       - "18080:18080" # P2P network port
       - "18081:18081" # RPC full port - Authentication is set. Not open to Internet.
