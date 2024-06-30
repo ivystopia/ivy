@@ -13,18 +13,17 @@ services:
     env_file:
       - .env
     volumes:
-      - /mnt/e/XMR/blockchain:/home/monero/.bitmonero
+      - /home/anon/.bitmonero:/home/monero/.bitmonero
     ports:
       - "18080:18080" # P2P network port
       - "18081:18081" # RPC full port - Authentication is set. Not open to Internet.
       - "18083:18083" # ZeroMQ port
     command: >
-      --out-peers 256
-      --in-peers 128
+      --out-peers 512
+      --in-peers 512
       --enable-dns-blocklist
       --data-dir /home/monero/.bitmonero
-      --limit-rate-up 500000
-      --limit-rate-down 500000
+      --limit-rate 92160 # 90MB/s
       --enforce-dns-checkpointing
       --db-sync-mode fast:async:250000000bytes
       --log-level 0
@@ -34,6 +33,8 @@ services:
       --confirm-external-bind
       --zmq-pub=tcp://0.0.0.0:18083
       --rpc-login $RPC_USERNAME:$RPC_PASSWORD
+    environment:
+      DNS_PUBLIC: "tcp://9.9.9.9"
     healthcheck:
       test: ["CMD", "curl", "--user", "$RPC_USERNAME:$RPC_PASSWORD", "--fail", "http://localhost:18081/get_info"]
       interval: 30s
@@ -49,9 +50,26 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-      - "/mnt/e/ProtonDrive/My files/Secrets/SSL/ivy.gb.net/:/certs"
     command: >
-      -H unix:///var/run/docker.sock --ssl --sslcert /certs/fullchain.pem --sslkey /certs/privkey.pem
+      -H unix:///var/run/docker.sock
+
+  pihole:
+      container_name: pihole
+      image: pihole/pihole:latest
+      env_file:
+      - .env
+      ports:
+        - "53:53/tcp"
+        - "53:53/udp"
+        - "3141:80/tcp"
+      environment:
+        TZ: 'Europe/London'
+        WEBPASSWORD: $PIHOLE_PASSWORD
+      # Volumes store your data between container upgrades
+      volumes:
+        - './etc-pihole:/etc/pihole'
+        - './etc-dnsmasq.d:/etc/dnsmasq.d'
+      restart: unless-stopped
 
 volumes:
   portainer_data:
