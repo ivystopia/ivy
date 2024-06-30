@@ -6,26 +6,30 @@ services:
     image: ghcr.io/sethforprivacy/simple-monerod:latest
     restart: unless-stopped
     network_mode: bridge
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
     env_file:
       - .env
     volumes:
       - /mnt/e/XMR/blockchain:/home/monero/.bitmonero
     ports:
       - "18080:18080" # P2P network port
-      - "18081:18081" # RPC full port - Authentication required. Beware opening to the Internet!
+      - "18081:18081" # RPC full port - Authentication is set. Not open to Internet.
       - "18083:18083" # ZeroMQ port
     command: >
-      --out-peers 512
-      --in-peers 512
+      --out-peers 256
+      --in-peers 128
       --enable-dns-blocklist
       --data-dir /home/monero/.bitmonero
-      --limit-rate-up 1048576
-      --limit-rate-down 1048576
+      --limit-rate-up 500000
+      --limit-rate-down 500000
       --enforce-dns-checkpointing
       --db-sync-mode fast:async:250000000bytes
       --log-level 0
-      --max-log-file-size 104857600
-      --max-log-files 20
+      --max-log-file-size 6553600
+      --max-log-files 16
       --rpc-bind-ip 0.0.0.0
       --confirm-external-bind
       --zmq-pub=tcp://0.0.0.0:18083
