@@ -7,7 +7,6 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
           memory: '16G'
     logging:
       options:
@@ -16,7 +15,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /home/anon/.bitmonero:/home/monero/.bitmonero
+      - bitmonero:/home/monero/.bitmonero
       - ./monero-node-resolv.conf:/etc/resolv.conf
     ports:
       - '18080:18080' # P2P network port
@@ -29,7 +28,7 @@ services:
       --data-dir /home/monero/.bitmonero
       --limit-rate 92160
       --enforce-dns-checkpointing
-      --db-sync-mode fast:async:250000000bytes
+      --db-sync-mode fast
       --log-level 0
       --max-log-file-size 6553600
       --max-log-files 16
@@ -87,3 +86,4 @@ volumes:
   portainer_data: {}
   pihole_data: {}
   dnsmasq_data: {}
+  bitmonero: {}
