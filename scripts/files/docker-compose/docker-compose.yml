@@ -23,7 +23,7 @@ services:
       --in-peers 512
       --enable-dns-blocklist
       --data-dir /home/monero/.bitmonero
-      --limit-rate 92160 # 90MB/s
+      --limit-rate 92160
       --enforce-dns-checkpointing
       --db-sync-mode fast:async:250000000bytes
       --log-level 0
@@ -34,7 +34,7 @@ services:
       --zmq-pub=tcp://0.0.0.0:18083
       --rpc-login $RPC_USERNAME:$RPC_PASSWORD
     environment:
-      DNS_PUBLIC: "tcp://9.9.9.9"
+      - TERM="xterm-256color"
     healthcheck:
       test: ["CMD", "curl", "--user", "$RPC_USERNAME:$RPC_PASSWORD", "--fail", "http://localhost:18081/get_info"]
       interval: 30s
