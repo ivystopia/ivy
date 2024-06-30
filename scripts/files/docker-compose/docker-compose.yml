@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   monero-node:
-    container_name: monero-daemon
+    container_name: Monero-Node
     image: ghcr.io/sethforprivacy/simple-monerod:latest
     restart: unless-stopped
     network_mode: bridge
@@ -42,7 +42,7 @@ services:
       retries: 3
 
   portainer:
-    container_name: portainer
+    container_name: Portainer
     image: portainer/portainer-ce:latest
     ports:
       - "9000:9000"
@@ -55,7 +55,7 @@ services:
       unix:///var/run/docker.sock
 
   pihole:
-    container_name: pihole
+    container_name: Pi-hole
     image: pihole/pihole:latest
     env_file:
       - .env
