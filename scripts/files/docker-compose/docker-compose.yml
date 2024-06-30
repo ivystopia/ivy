@@ -42,34 +42,36 @@ services:
       retries: 3
 
   portainer:
-    image: portainer/portainer-ce:latest
     container_name: portainer
+    image: portainer/portainer-ce:latest
     ports:
       - "9000:9000"
       - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-    command: >
-      -H unix:///var/run/docker.sock
+    command: |
+      -H
+      unix:///var/run/docker.sock
 
   pihole:
-      container_name: pihole
-      image: pihole/pihole:latest
-      env_file:
+    container_name: pihole
+    image: pihole/pihole:latest
+    env_file:
       - .env
-      ports:
-        - "53:53/tcp"
-        - "53:53/udp"
-        - "3141:80/tcp"
-      environment:
-        TZ: 'Europe/London'
-        WEBPASSWORD: $PIHOLE_PASSWORD
-      # Volumes store your data between container upgrades
-      volumes:
-        - './etc-pihole:/etc/pihole'
-        - './etc-dnsmasq.d:/etc/dnsmasq.d'
-      restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "3141:80/tcp"
+    environment:
+      TZ: 'Europe/London'
+      WEBPASSWORD: $PIHOLE_PASSWORD
+    volumes:
+      - pihole_data:/etc/pihole
+      - dnsmasq_data:/etc/dnsmasq.d
+    restart: unless-stopped
 
 volumes:
   portainer_data:
+  pihole_data:
+  dnsmasq_data:

@@ -1,6 +1,2 @@
 _site
 scripts/files/docker-compose/.env
-
-# Ignore everything in the docker-compose directory except the docker-compose file
-scripts/files/docker-compose/*
-!scripts/files/docker-compose/docker-compose.yml
