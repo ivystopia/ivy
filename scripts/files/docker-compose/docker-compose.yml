@@ -64,6 +64,7 @@ services:
       - portainer_data:/data
     command: |
       -H unix:///var/run/docker.sock
+    restart: unless-stopped
 
   pihole:
     container_name: Pi-hole
