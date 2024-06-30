@@ -39,3 +39,19 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+      - "/mnt/e/ProtonDrive/My files/Secrets/SSL/ivy.gb.net/:/certs"
+    command: >
+      -H unix:///var/run/docker.sock --ssl --sslcert /certs/fullchain.pem --sslkey /certs/privkey.pem
+
+volumes:
+  portainer_data:
