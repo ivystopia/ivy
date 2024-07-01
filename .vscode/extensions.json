@@ -1,0 +1,5 @@
+{
+  "recommendations": [
+    "ms-python.black-formatter" // Recommends the Black formatter extension
+  ]
+}
