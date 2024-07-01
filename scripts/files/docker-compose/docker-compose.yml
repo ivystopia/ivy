@@ -19,7 +19,7 @@ services:
       - ./monero-node-resolv.conf:/etc/resolv.conf
     ports:
       - '18080:18080' # P2P network port
-      - '18081:18081' # RPC full port - Authentication is set. Not open to Internet.
+      - '18081:18081' # RPC full port - Authentication is set. Unsafe to open to Internet due to lack of HTTPS.
       - '18083:18083' # ZeroMQ port
     command: |
       --out-peers 256
