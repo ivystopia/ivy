@@ -21,7 +21,7 @@ services:
       - '18080:18080' # P2P network port
       - '18081:18081' # RPC full port - Authentication is set. Not open to Internet.
       - '18083:18083' # ZeroMQ port
-    command: >
+    command: |
       --out-peers 256
       --in-peers 256
       --enable-dns-blocklist
